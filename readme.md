@@ -163,13 +163,19 @@ function addZero(date) {
 - 아래와 같이 style.display = "none" / "block"을 사용하여 구현하였음
 
 ```
-function changeToGridView() {
-  document.getElementsByClassName("list-selected")[0].style.display = "none";
-  document.getElementsByClassName("grid-selected")[0].style.display = "block";
-  document.getElementsByClassName("press-list-section")[0].style.display =
-    "none";
-  document.getElementsByClassName("press-grid")[0].style.display = "block";
-  grid_view_selected = true;
+function changeToGridViewDisplay() {
+  const block_display = [".grid-selected", ".press-grid"];
+  const none_display = [
+    ".list-selected",
+    ".press-list-section",
+    ".sub-press-list-section",
+  ];
+  setDisplayofArr(block_display, "block"); // 디스플레이 설정 util 함수
+  setDisplayofArr(none_display, "none");
+
+  getTotalSubClass();
+  removeAddClass(total_press, "not-clicked", "bold-font-init"); // 클래스명 삭제, 추가 util 함수
+  removeAddClass(subscribed_press, "bold-font-init", "not-clicked");
 }
 ```
 
@@ -201,12 +207,13 @@ let shuffled_presses = [...presses].sort(shuffle);
 #### 2. `listNews.js - html에 리스트뷰 아티클을 추가해주는 모듈`
 
 - html을 복잡하게 만들지 않기 위해 listNews.js에서 news-article 섹션을 그려주는 함수를 구현하였음
-- innerHTML 조작 및 템플릿 리터럴을 사용하여 구현하였습니다.
+- innerHTML 조작 및 템플릿 리터럴을 사용하여 구현하였음
 
 #### 3. `progressBar.js - 프로그레스바 관련 모듈`
 
-- progress-bar 클래스를 제거하고, 더해주는 방식으로 구현하였습니다.
-- 프로그레스바 구현 시 그리드 뷰에서 리스트 뷰로 돌아오면 처음으로 초기화 될 수 있도록 progressBar.js에 initializeProgress 함수를 구현하였습니다.
+- progress-bar 클래스를 제거하고, 더해주는 방식으로 구현하였음
+- setInterval()을 사용하여 20초마다 돌아가도록 구현하였음
+- 프로그레스바 구현 시 그리드 뷰에서 리스트 뷰로 돌아오면 처음으로 초기화 될 수 있도록 progressBar.js에 initializeProgress 함수를 구현하였음
 
 #### 4. `subListNews.js - 내가 구독한 언론사 리스트뷰 관련 모듈`
 
@@ -214,12 +221,12 @@ let shuffled_presses = [...presses].sort(shuffle);
 
 #### 5. `subProgressBar.js - 내가 구독한 언론사 리스트뷰 프로그레스바 관련 모듈`
 
-- progressBar.js의 구성과 거의 동일
+- progressBar.js의 구조와 거의 동일
 
 #### 6. `rollingBanner.js - 무한 롤링 배너 관련 모듈`
 
-- 무한 롤링 구현 시 prev, current, next와 같은 클래스를 제거하고, 더해주는 방식으로 구현하였습니다.
-- 이벤트리스너를 추가하여 호버 시 멈춤을 구현하였습니다.
+- 무한 롤링 구현 시 prev, current, next와 같은 클래스를 제거하고, 더해주는 방식으로 구현하였음
+- 이벤트리스너를 추가하여 호버 시 멈춤을 구현하였음.
 
 ### [Observer directory & Store directory]
 
@@ -230,6 +237,15 @@ initState, getState, setState, subscribe, notify 함수 작성
 ```
 
 #### 2. `subscriber.js - 구독을 한번에 처리해주는 모듈`
+
+```
+ex)
+subscribe(subGridPageIdx, setGrid);
+subscribe(subGridPageIdx, drawGridArrow);
+
+subscribe(gridPageIdx, setGrid);
+subscribe(gridPageIdx, drawGridArrow);
+```
 
 #### 3. `store.js - 디폴트 상태 세팅`
 
@@ -243,12 +259,12 @@ export const isLight = initState({
 
 ### [Util directory]
 
-#### 1. `path.js - 전역으로 이미지 소스 관리`
+#### 1. `path.js - 전역으로 이미지 소스 path 관리`
 
 #### 2. `utils.js `
 
 - document.querySelector(element).style.display = display_style; 와 같이 긴 코드를 짧게 처리하였음
-- classList remove, add도 유틸 함수로 작성하여 짧게 처리해주었습니다.
+- classList remove, add도 유틸 함수로 작성하여 짧게 처리해주었음
 
 ## 어려웠던 점 / 고민했던 점
 
@@ -272,6 +288,7 @@ export const isLight = initState({
 
 - 피어세션과 스쿼드세션을 거치며 설계의 중요성을 깨달았습니다. 좋은 설계로 인해 개발에 걸리는 시간이 크게 줄어들기도 하고, 기능 구현과 리팩토링을 쉽고 빠르게 할 수 있다는 것을 알게되었습니다.
 - 다른 분들의 디렉토리 구조 구성 방식, 코드 작성 방식 등을 보며 클린 코드에 대한 많은 깨우침을 얻었습니다.
+- 본인의 코드 로직이나 설계방식, 팁 등을 전수해주셔서 제가 부족한 부분은 아이디어를 얻어 구현할 수 있었습니다.
 
 ## 아쉬운 점 / 개선할 점
 
