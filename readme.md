@@ -2,6 +2,56 @@
 
 > **현대자동차그룹 소프티어부트캠프 2기 웹 프론트엔드 박지혜** </br> **- 바닐라 자바스크립트로 뉴스스탠드 구현하기**
 
+## 🗂 디렉토리 구조
+
+```
+fe-newsstand
+├─ .DS_Store
+├─ app.js
+├─ assets
+│  ├─ light
+│  └─ others
+├─ data
+│  ├─ newsContents.json
+│  └─ pressObj.json
+├─ main.html
+├─ readme.md
+├─ src
+│  ├─ api
+│  │  └─ api.js
+│  ├─ bringDate.js
+│  ├─ changeView.js
+│  ├─ components
+│  │  ├─ gridView.js
+│  │  ├─ listNews.js
+│  │  ├─ progressBar.js
+│  │  ├─ rollingBanner.js
+│  │  ├─ snackBar.js
+│  │  ├─ subListNews.js
+│  │  └─ subProgressBar.js
+│  ├─ initialDisplay.js
+│  ├─ observer
+│  │  ├─ observer.js
+│  │  └─ subscriber.js
+│  ├─ store
+│  │  └─ store.js
+│  └─ util
+│     ├─ path.js
+│     └─ utils.js
+└─ style
+   ├─ components
+   │  ├─ arrow-style.css
+   │  ├─ grid-style.css
+   │  ├─ header-style.css
+   │  ├─ list-style.css
+   │  ├─ rolling-banner.css
+   │  ├─ sub-alert.css
+   │  └─ view-option.css
+   ├─ global.css
+   └─ reset.css
+
+```
+
 ## 📌 CSS 고려사항
 
 - 재사용성을 위해 자주 사용되는 폰트 속성을 묶어서 사용
@@ -129,7 +179,7 @@ function changeToGridView() {
 
 ### [Components directory]
 
-#### 1. `gridView.js - 그리드 뷰를 그리는 모듈`
+#### 1. `gridView.js - 그리드뷰를 그리는 모듈`
 
 - ❗️ Observer Pattern 적용
 
@@ -164,7 +214,7 @@ let shuffled_presses = [...presses].sort(shuffle);
 
 #### 5. `subProgressBar.js - 내가 구독한 언론사 리스트뷰 프로그레스바 관련 모듈`
 
-- progressBar.js의 구성와 거의 동일
+- progressBar.js의 구성과 거의 동일
 
 #### 6. `rollingBanner.js - 무한 롤링 배너 관련 모듈`
 
@@ -232,7 +282,7 @@ export const isLight = initState({
 - 원래는 굳이 동적으로 리스트뷰의 카테고리를 추가할 필요가 없다고 생각해서
   main.html에 정적으로 카테고리를 넣어놓았었습니다. 옵저버 패턴 적용을 시도하면서 sub-press-list section을 지우고 하나의 press-list-section에서 일반 리스트뷰와 구독 리스트뷰를 관리하고자 하였으나, 카테고리를 동적으로 추가하니 쿼리 셀렉터로 카테고리 엘리먼트를 받아올 수가 없어서 원래 작성했던 프로그레스바 코드에 문제가 생기게 되었습니다.
 
-- 리스트 뷰 하나에서만 timeout을 돌릴땐 문제가 없었는데, sub-list에서 같이 프로그레스바를 돌리니 많은 문제가 생겨났습니다. 클리어 타임아웃을 해주는 위치가 중요한데 setTimeout 함수에 대한 이해가 부족하다보니 이런 상황이 발생하였다고 생각합니다.
+- 리스트 뷰 하나에서만 interval을 돌릴땐 문제가 없었는데, sub-list에서 같이 프로그레스바를 돌리니 많은 문제가 생겨났습니다. clearInterval을 해주는 위치가 중요한데 setTimeout 함수에 대한 이해가 부족하다보니 이런 상황이 발생하였다고 생각합니다.
 
 - 따라서 시간 안에 옵저버로의 리팩토링을 진행하지 못했고, 프로그레스바 작동에 지대한 문제가 발생하게 되었습니다. 리스트뷰에 완전한 옵저버를 적용하지 못해 많이 아쉽지만, 그리드뷰에서라도 옵저버 패턴을 적용해보며 해당 패턴에 대한 이해도를 높일 수 있어 의미있는 경험이었습니다.
 
